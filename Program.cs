@@ -38,21 +38,21 @@ class Decimal : Integer
     // Реализация метода сложения для десятичных чисел
     public override IInteger Add(IInteger other)
     {
-        var a = GetDigits();                  // Получаем массив цифр текущего числа
-        var b = ((Decimal)other).GetDigits(); // Получаем массив цифр второго числа
-        int carry = 0,                        // Перенос
-            m = Math.Max(a.Length, b.Length); // Находим максимальную длину массивов
+        var a = GetDigits();                      // Получаем массив цифр текущего числа
+        var b = ((Decimal)other).GetDigits();    // Получаем массив цифр второго числа
+        int carry = 0,                          // Перенос
+            m = Math.Max(a.Length, b.Length);  // Находим максимальную длину массивов
         int[] result = new int[m + 1];        // Создаем массив для результата с учетом возможного переноса
 
         for (int i = 0; i < m; i++)          // Проходим по цифрам с конца
         {
-            int sum = carry;                               // Инициализируем сумму переносом
-            if (i < a.Length) sum += a[a.Length - 1 - i]; // Добавляем цифру первого числа (с конца)
-            if (i < b.Length) sum += b[b.Length - 1 - i]; // Добавляем цифру второго числа (с конца)
+            int sum = carry;                                 // Инициализируем сумму переносом
+            if (i < a.Length) sum += a[a.Length - 1 - i];   // Добавляем цифру первого числа (с конца)
+            if (i < b.Length) sum += b[b.Length - 1 - i];  // Добавляем цифру второго числа (с конца)
             result[m - i] = sum % 10;                     // Записываем остаток от деления на 10 в результат
             carry = sum / 10;                            // Обновляем перенос
         }
-        if (carry > 0) result[0] = carry; // Если есть перенос, записываем его в начало
+        if (carry > 0) result[0] = carry;                             // Если есть перенос, записываем его в начало
         return new Decimal(result.SkipWhile(x => x == 0).ToArray()); // Создаем новый объект и удаляем ведущие нули
 
     }
@@ -62,14 +62,14 @@ class Decimal : Integer
     {
         var a = GetDigits();
         var b = ((Decimal)other).GetDigits();
-        int borrow = 0;                             // Заём
+        int borrow = 0;                              // Заём
         int m = Math.Max(a.Length, b.Length);
-        int[] result = new int[m];                 // Создаем массив для результата
+        int[] result = new int[m];                  // Создаем массив для результата
 
         for (int i = 0; i < m; i++)                // Проходим по цифрам с конца
         {
-            int diff = borrow;                                    // Инициализируем разность займом
-            if (i < a.Length) diff += a[a.Length - 1 - i];       // Добавляем цифру первого числа (с конца)
+            int diff = borrow;                                     // Инициализируем разность займом
+            if (i < a.Length) diff += a[a.Length - 1 - i];        // Добавляем цифру первого числа (с конца)
             if (i < b.Length) diff -= b[b.Length - 1 - i];       // Вычитаем цифру второго числа (с конца)
 
             if (diff < 0)
@@ -78,7 +78,7 @@ class Decimal : Integer
                 borrow = 1;
             }
             else
-                borrow = 0; // Обновляем заем
+                borrow = 0;             // Обновляем заем
 
             result[m - 1 - i] = diff; // Записываем разность в результат
 
@@ -93,8 +93,8 @@ class Decimal : Integer
     {
         var a = GetDigits();
         var b = ((Decimal)other).GetDigits();
-        int m = a.Length; // Длина массива первого числа
-        int n = b.Length; // Длина массива второго числа
+        int m = a.Length;                // Длина массива первого числа
+        int n = b.Length;               // Длина массива второго числа
         int[] result = new int[m + n]; // Создаем массив для результата
            
         // Проходим по цифрам первого числа с конца
@@ -103,8 +103,8 @@ class Decimal : Integer
             int carry = 0;
             for (int j = n - 1; j >= 0; j--)
             {
-                int product = a[i] * b[j] + result[i + j + 1] + carry; // Вычисляем произведение, сумму и перенос
-                result[i + j + 1] = product % 10;                      // Записываем остаток от деления на 10
+                int product = a[i] * b[j] + result[i + j + 1] + carry;    // Вычисляем произведение, сумму и перенос
+                result[i + j + 1] = product % 10;                        // Записываем остаток от деления на 10
                 carry = product / 10;
             }
             result[i] += carry;                                        // Добавляем перенос к текущему разряду
@@ -132,14 +132,14 @@ class Binary : Integer
 
         for (int i = 0; i < m; i++)
         {
-            int sum = carry; // Инициализируем сумму переносом
+            int sum = carry;           // Инициализируем сумму переносом
             if (i < a.Length) sum += a[a.Length - 1 - i];
             if (i < b.Length) sum += b[b.Length - 1 - i];
 
             result[m - i] = sum % 2; // Записываем остаток от деления на 2 в результат
-            carry = sum / 2; // Обновляем перенос
+            carry = sum / 2;        // Обновляем перенос
         }
-        if (carry > 0) result[0] = carry; // Если есть перенос, записываем его в начало
+        if (carry > 0) result[0] = carry;                            // Если есть перенос, записываем его в начало
         return new Binary(result.SkipWhile(x => x == 0).ToArray()); // Создаем новый объект и удаляем ведущие нули
     }
 
@@ -150,11 +150,11 @@ class Binary : Integer
         var b = ((Binary)other).GetDigits();
         int borrow = 0;
         int m = Math.Max(a.Length, b.Length); // Находим максимальную длину массивов
-        int[] result = new int[m]; // Создаем массив для результата
+        int[] result = new int[m];           // Создаем массив для результата
 
         for (int i = 0; i < m; i++)
             {
-            int diff = borrow; // Инициализируем разность займом
+            int diff = borrow;             // Инициализируем разность займом
             if (i < a.Length) diff += a[a.Length - 1 - i];
             if (i < b.Length) diff -= b[b.Length - 1 - i];
 
@@ -164,9 +164,9 @@ class Binary : Integer
                 borrow = 1;
             }
             else
-                borrow = 0; // Обновляем заем
+                borrow = 0;                                           // Обновляем заем
 
-            result[m - 1 - i] = diff; // Записываем разность в результат
+            result[m - 1 - i] = diff;                                // Записываем разность в результат
         }
         return new Binary(result.SkipWhile(x => x == 0).ToArray()); // Создаем новый объект и удаляем ведущие нули
     }
@@ -190,10 +190,10 @@ class Binary : Integer
              for (int j = n - 1; j >= 0; j--)
              {
                 int product = b[j] + result[i + j + 1] + carry; // Вычисляем произведение, сумму и перенос
-                result[i + j + 1] = product % 2; // Записываем остаток от деления на 2
-                carry = product / 2; // Обновляем перенос
+                result[i + j + 1] = product % 2;               // Записываем остаток от деления на 2
+                carry = product / 2;                          // Обновляем перенос
             }
-            result[i] += carry; // Добавляем перенос к текущему разряду
+            result[i] += carry;                             // Добавляем перенос к текущему разряду
         }
         return new Binary(result.SkipWhile(x => x == 0).ToArray());
     }
