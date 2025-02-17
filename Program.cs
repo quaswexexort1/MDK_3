@@ -1,3 +1,25 @@
+// Создаем объекты Decimal
+IInteger d1 = new Decimal("123");
+IInteger d2 = new Decimal("456");
+
+// Вывод операций для Decimal
+Console.WriteLine("Decimal:");
+Console.Write($"{d1} + {d2} = "); d1.Add(d2).Print();
+Console.Write($"{d2} - {d1} = "); d2.Subtract(d1).Print();
+Console.Write($"{d1} * {d2} = "); d1.Multiply(d2).Print();
+Console.WriteLine();
+
+// Создаем объекты Binary
+IInteger b1 = new Binary("101");
+IInteger b2 = new Binary("110");
+
+// Вывод операций для Binary
+Console.WriteLine("Binary:");
+Console.Write($"{b1} + {b2} = "); b1.Add(b2).Print();
+Console.Write($"{b2} - {b1} = "); b2.Subtract(b1).Print();
+Console.Write($"{b1} * {b2} = "); b1.Multiply(b2).Print();
+Console.ReadKey();
+
 
 interface IInteger // Интерфейс для арифметических операций над числами.
 {
@@ -88,6 +110,7 @@ class Decimal : Integer
     }
 
 
+
     // Реализация метода умножения для десятичных чисел
     public override IInteger Multiply(IInteger other)
     {
@@ -96,7 +119,7 @@ class Decimal : Integer
         int m = a.Length;                // Длина массива первого числа
         int n = b.Length;               // Длина массива второго числа
         int[] result = new int[m + n]; // Создаем массив для результата
-           
+
         // Проходим по цифрам первого числа с конца
         for (int i = m - 1; i >= 0; i--)
         {
@@ -123,7 +146,7 @@ class Binary : Integer
 
     // Реализация метода сложения для двоичных чисел
     public override IInteger Add(IInteger other)
-        {
+    {
         var a = GetDigits();
         var b = ((Binary)other).GetDigits();
         int carry = 0;
@@ -153,7 +176,7 @@ class Binary : Integer
         int[] result = new int[m];           // Создаем массив для результата
 
         for (int i = 0; i < m; i++)
-            {
+        {
             int diff = borrow;             // Инициализируем разность займом
             if (i < a.Length) diff += a[a.Length - 1 - i];
             if (i < b.Length) diff -= b[b.Length - 1 - i];
@@ -187,8 +210,8 @@ class Binary : Integer
                 continue;
 
             int carry = 0;
-             for (int j = n - 1; j >= 0; j--)
-             {
+            for (int j = n - 1; j >= 0; j--)
+            {
                 int product = b[j] + result[i + j + 1] + carry; // Вычисляем произведение, сумму и перенос
                 result[i + j + 1] = product % 2;               // Записываем остаток от деления на 2
                 carry = product / 2;                          // Обновляем перенос
@@ -196,34 +219,6 @@ class Binary : Integer
             result[i] += carry;                             // Добавляем перенос к текущему разряду
         }
         return new Binary(result.SkipWhile(x => x == 0).ToArray());
-    }
-}
-
-public class Program
-{
-    public static void Main(string[] args)
-    {
-        // Создаем объекты Decimal
-        IInteger d1 = new Decimal("123");
-        IInteger d2 = new Decimal("456");
-
-        // Вывод операций для Decimal
-        Console.WriteLine("Decimal:");
-        Console.Write($"{d1} + {d2} = "); d1.Add(d2).Print();
-        Console.Write($"{d2} - {d1} = "); d2.Subtract(d1).Print();
-        Console.Write($"{d1} * {d2} = "); d1.Multiply(d2).Print();
-        Console.WriteLine();
-
-        // Создаем объекты Binary
-        IInteger b1 = new Binary("101");
-        IInteger b2 = new Binary("110");
-
-        // Вывод операций для Binary
-        Console.WriteLine("Binary:");
-        Console.Write($"{b1} + {b2} = "); b1.Add(b2).Print();
-        Console.Write($"{b2} - {b1} = "); b2.Subtract(b1).Print();
-        Console.Write($"{b1} * {b2} = "); b1.Multiply(b2).Print();
-        Console.ReadKey();
     }
 }
 
